@@ -3,6 +3,8 @@ from uszipcode import SearchEngine
 import pandas as pd
 from django.views.decorators.csrf import csrf_exempt
 from io import StringIO
+from django.http import HttpResponse
+import csv
 
 def pull_radius_zips(f):
     radius_results = pd.DataFrame(columns = ['radius_zips', 'original_zips'])
@@ -22,14 +24,18 @@ def pull_radius_zips(f):
     return radius_results
 
 @csrf_exempt
+def download(request):
+    f = request.FILES.get('csvFile')
+    f = f.read()
+    f = f.decode('utf-8')
+    f = pd.read_csv(StringIO(f))
+    radius_results = pull_radius_zips(f)
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="radius_zips.csv"'
+    radius_results.to_csv(path_or_buf=response, index=False)
+    return response
+
+@csrf_exempt
 # Create your views here.
 def index(request):
-    context = {}
-    if request.method == 'POST':
-        d = request.POST
-        f = request.FILES.get('csvFile')
-        f = f.read()
-        f = f.decode('utf-8')
-        f = pd.read_csv(StringIO(f))
-        radius_results = pull_radius_zips(f)
-    return render(request, "zip_app/index.html", context)
+    return render(request, "zip_app/index.html")
