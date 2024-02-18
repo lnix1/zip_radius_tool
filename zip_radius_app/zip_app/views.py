@@ -6,14 +6,14 @@ from io import StringIO
 from django.http import HttpResponse
 import csv
 
-def pull_radius_zips(f):
+def pull_radius_zips(f, r):
     radius_results = pd.DataFrame(columns = ['radius_zips', 'original_zips'])
     sr = SearchEngine()
     for j in range(0, len(f['zip_code'])):
         zip_info = sr.by_zipcode(str(f['zip_code'][j]))
         lat = zip_info.lat
         lng = zip_info.lng
-        result = sr.by_coordinates(lat, lng, radius = 10, returns = 0)
+        result = sr.by_coordinates(lat, lng, radius = r, returns = 0)
         radius = []
         for i in result:
             radius.append(i.zipcode)
@@ -25,11 +25,13 @@ def pull_radius_zips(f):
 
 @csrf_exempt
 def download(request):
+    r = int(request.POST.get('radius'))
+    print(r)
     f = request.FILES.get('csvFile')
     f = f.read()
     f = f.decode('utf-8')
     f = pd.read_csv(StringIO(f))
-    radius_results = pull_radius_zips(f)
+    radius_results = pull_radius_zips(f, r)
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="radius_zips.csv"'
     radius_results.to_csv(path_or_buf=response, index=False)
