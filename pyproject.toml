@@ -6,11 +6,11 @@ authors = ["Louis Nix II"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-django = "^5.0.2"
+python = "3.9.18"
+django = "^4.2"
 uszipcode = "^1.0.1"
 pandas = "^2.2.0"
-
+sqlalchemy-mate = "<2.0.0.0"
 
 [build-system]
 requires = ["poetry-core"]
