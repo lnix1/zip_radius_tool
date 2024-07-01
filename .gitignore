@@ -1,3 +1,7 @@
+# Elastic Beanstalk deployment files
+.ebextensions/
+.elasticbeanstalk/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

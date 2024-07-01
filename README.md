@@ -14,3 +14,8 @@ From the "zip_radius_tool/" directory:
 2) Run "cd zip_radius_app/"
 3) Run "python3 manage.py runserver"
 4) Open the application by pasting the server link given in the terminal into your browser and appending "zip_app/"
+
+## Notes on deployment
+
+This application is deployed using Elastic Beanstalk. So in addition to poetry, you will need "venv" to deploy using EB. The requirements.txt file is mean specifically to facilitate deployment.
+- You will also need to update the ALLOWED_HOST list in the setting.py file to allow for the URL created when using Elastic Beanstalk.
