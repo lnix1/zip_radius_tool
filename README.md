@@ -3,7 +3,7 @@ Tool for grabbing a list of zips in a specified radius for a list of provided zi
 
 ## Steps to start server locally for deveopment
 
-*Note: This project utilizes Pyenv and Peotry for version and dependency management.*
+*Note: This project utilizes Pyenv and Poetry for version and dependency management.*
 
 From the "zip_radius_tool/" directory:
 1) Ensure the correct version of python is install and set using:
